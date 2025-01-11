@@ -1,0 +1,6 @@
+#import "./types.graphql"
+
+type Query {
+  getNoteList(input: GetNoteListQueryInput): GetNoteListQueryResponse!
+  getNote(id: String!): GetNoteQueryResponse!
+}

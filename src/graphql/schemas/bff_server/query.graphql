@@ -1,0 +1,5 @@
+#import "./types.graphql"
+
+type Query {
+  bffServerInformation: BffServerInformation
+}

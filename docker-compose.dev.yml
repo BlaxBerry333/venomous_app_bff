@@ -1,0 +1,40 @@
+services:
+  # BFF Server
+  # ----------------------------------------------------------------------------------------------------
+  bff_server:
+    image: venomous_apps_bff_server:latest
+    container_name: bff_server
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - BFF_SERVER_REDIS_HOST=bff_server_redis
+      - BFF_SERVER_REDIS_PORT=9100
+      - BFF_SERVER_REDIS_URL=redis://bff_server_redis:9100
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/app
+    depends_on:
+      - bff_server_redis
+    networks:
+      - venomous_apps_network
+
+  # BFF Server Redis
+  # ----------------------------------------------------------------------------------------------------
+  bff_server_redis:
+    image: redis:latest
+    container_name: bff_server_redis
+    ports:
+      - "9100:6379"
+    volumes:
+      - bff_server_redis_data:/data
+    networks:
+      - venomous_apps_network
+
+networks:
+  venomous_apps_network:
+    driver: bridge
+
+volumes:
+  bff_server_redis_data:

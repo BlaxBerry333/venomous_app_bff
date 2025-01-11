@@ -1,0 +1,6 @@
+type BffServerInformation {
+  name: String!
+  version: String!
+  description: String!
+  author: String!
+}

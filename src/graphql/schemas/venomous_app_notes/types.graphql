@@ -1,0 +1,69 @@
+enum SelectableNoteType {
+  RAFT
+}
+
+type NoteData {
+  _id: String!
+  type: SelectableNoteType!
+  title: String!
+  message: String!
+  created_at: String!
+  updated_at: String!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+input GetNoteListQueryInput {
+  type: SelectableNoteType
+  sort: String
+  order_by: String
+  page: Int!
+  count: Int!
+}
+
+type GetNoteListQueryResponse {
+  totalCount: Int!
+  totalPages: Int!
+  currentPage: Int!
+  notes: [NoteData]!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+type GetNoteQueryResponse {
+  note: NoteData!
+  message: String!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+input CreateNoteMutationInput {
+  type: SelectableNoteType!
+  title: String!
+  message: String!
+}
+
+type CreateNoteMutationResponse {
+  note: NoteData!
+  message: String!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+input UpdateNoteMutationInput {
+  type: SelectableNoteType!
+  title: String!
+  message: String!
+}
+
+type UpdateNoteMutationResponse {
+  note: NoteData!
+  message: String!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+type DeleteNoteMutationResponse {
+  note: NoteData!
+  message: String!
+}

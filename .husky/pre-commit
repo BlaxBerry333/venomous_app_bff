@@ -1,0 +1,7 @@
+COLOR_PURPLE='\033[0;35m'
+COLOR_GREEN='\033[0;32m'
+COLOR_NO_COLOR='\033[0m'
+
+
+echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NO_COLOR} CHECKING [bff_server] ..."
+concurrently "npm run check-all" "npm run format-all"
