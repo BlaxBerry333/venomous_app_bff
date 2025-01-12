@@ -5,6 +5,17 @@
 |    BFF Server    | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4)](https://skillicons.dev) |  BFF  | `9000` |
 | BFF Server Redis | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4)](https://skillicons.dev)                  | Redis | `9100` |
 
+## 📚 Tech Stacks
+
+- [node.js]() v22.0.0
+- [express.js]() v4
+- [rollup]() v4
+- [graphql]() v16
+- [@apollo/server]() v4
+- [@graphql-tools]() v8
+- [protobuf](https://github.com/BlaxBerry333/venomous_app_protobuf)
+- ...
+
 ## 🚀 Local Setup
 
 ```shell
@@ -32,7 +43,6 @@
 # Server
 % npm run start:[mode]
 % npm run build
-% npm run codegen                   # generate typescript code from graphql schemas
 
 # check lint & format
 % npm run check-all
@@ -43,7 +53,23 @@
 % npm run format-all
 % npm run eslint
 % npm run prettier
+
+# Others
+% npm run codegen                   # generate typescript code from graphql schemas
 ```
+
+## 🔗 API
+
+| Method | URL                         | Description                |
+| ------ | --------------------------- | -------------------------- |
+|        | bff server information apis |                            |
+| GET    | `/bff_info`                 | get bff server information |
+|        | venomous_app_notes apis     |                            |
+| GET    | `/notes/api/note/list`      | get all notes              |
+| POST   | `/notes/api/note/create`    | create a note              |
+| POST   | `/notes/api/note/<id>`      | get a specific note        |
+| PUT    | `/notes/api/note/<id>`      | update a specific note     |
+| DELETE | `/notes/api/note/<id>`      | delete a specific note     |
 
 ## 📂 Project Structure
 
@@ -55,20 +81,19 @@ venomous_app_bff/
 │    ├── configs/
 │    │
 │    ├── graphql/                           # graphql apis
-│    │    ├── schemas /
-│    │    │    └── ...
+│    │    ├── generated/
+│    │    │    └── graphql.ts
 │    │    │
+│    │    ├── schemas/
 │    │    └── resolvers/
-│    │         └── ...
 │    │
 │    ├── restapi/                           # restful apis
 │    │    ├── resolvers/
-│    │    │    └── ...
-│    │    │
 │    │    └── routers/
-│    │         └── ...
 │    │
 │    ├── utils/
+│    │    ├── helpers/
+│    │    ├── middlewares/
 │    │    └── ...
 │    │
 │    ├── ...
@@ -93,3 +118,8 @@ venomous_app_bff/
 1. open Apollo Server Sandbox `http://localhost:9000/graphql`
 2. open **Connection settings**, then switch **Auto Update** to `OFF`
 3. save configuration
+
+> Some API connection failure `connect ECONNREFUSED`
+
+- Make sure both servers are running inside Docker and are connected to the same Docker network.
+- or, run both servers without Docker.

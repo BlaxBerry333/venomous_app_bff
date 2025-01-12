@@ -1,5 +1,5 @@
 #import "./types.graphql"
 
 type Query {
-  bffServerInformation: BffServerInformation
+  getBffServerInformation: BffServerInformation
 }

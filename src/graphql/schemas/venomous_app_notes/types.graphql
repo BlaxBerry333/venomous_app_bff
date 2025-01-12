@@ -11,17 +11,7 @@ type NoteData {
   updated_at: String!
 }
 
-# ----------------------------------------------------------------------------------------------------
-
-input GetNoteListQueryInput {
-  type: SelectableNoteType
-  sort: String
-  order_by: String
-  page: Int!
-  count: Int!
-}
-
-type GetNoteListQueryResponse {
+type NoteDataListType {
   totalCount: Int!
   totalPages: Int!
   currentPage: Int!
@@ -30,9 +20,26 @@ type GetNoteListQueryResponse {
 
 # ----------------------------------------------------------------------------------------------------
 
-type GetNoteQueryResponse {
-  note: NoteData!
+input GetNoteListQueryInput {
+  type: SelectableNoteType
+  sort: String
+  order_by: String
+  page: Int
+  count: Int
+}
+
+type GetNoteListQueryResponse {
+  list: NoteDataListType
   message: String!
+  code: Int!
+}
+
+# ----------------------------------------------------------------------------------------------------
+
+type GetNoteQueryResponse {
+  note: NoteData
+  message: String!
+  code: Int!
 }
 
 # ----------------------------------------------------------------------------------------------------
@@ -44,26 +51,29 @@ input CreateNoteMutationInput {
 }
 
 type CreateNoteMutationResponse {
-  note: NoteData!
+  note: NoteData
   message: String!
+  code: Int!
 }
 
 # ----------------------------------------------------------------------------------------------------
 
 input UpdateNoteMutationInput {
-  type: SelectableNoteType!
-  title: String!
-  message: String!
+  type: SelectableNoteType
+  title: String
+  message: String
 }
 
 type UpdateNoteMutationResponse {
-  note: NoteData!
+  note: NoteData
   message: String!
+  code: Int!
 }
 
 # ----------------------------------------------------------------------------------------------------
 
 type DeleteNoteMutationResponse {
-  note: NoteData!
+  note: NoteData
   message: String!
+  code: Int!
 }

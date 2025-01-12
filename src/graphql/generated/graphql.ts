@@ -32,43 +32,45 @@ export type CreateNoteMutationInput = {
 
 export type CreateNoteMutationResponse = {
   __typename?: 'CreateNoteMutationResponse';
+  code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
-  note: NoteData;
+  note?: Maybe<NoteData>;
 };
 
 export type DeleteNoteMutationResponse = {
   __typename?: 'DeleteNoteMutationResponse';
+  code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
-  note: NoteData;
+  note?: Maybe<NoteData>;
 };
 
 export type GetNoteListQueryInput = {
-  count: Scalars['Int']['input'];
+  count?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Scalars['String']['input']>;
-  page: Scalars['Int']['input'];
+  page?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<SelectableNoteType>;
 };
 
 export type GetNoteListQueryResponse = {
   __typename?: 'GetNoteListQueryResponse';
-  currentPage: Scalars['Int']['output'];
-  notes: Array<Maybe<NoteData>>;
-  totalCount: Scalars['Int']['output'];
-  totalPages: Scalars['Int']['output'];
+  code: Scalars['Int']['output'];
+  list?: Maybe<NoteDataListType>;
+  message: Scalars['String']['output'];
 };
 
 export type GetNoteQueryResponse = {
   __typename?: 'GetNoteQueryResponse';
+  code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
-  note: NoteData;
+  note?: Maybe<NoteData>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createNote: CreateNoteMutationResponse;
-  deleteNote: DeleteNoteMutationResponse;
-  updateNote: UpdateNoteMutationResponse;
+  createNote?: Maybe<CreateNoteMutationResponse>;
+  deleteNote?: Maybe<DeleteNoteMutationResponse>;
+  updateNote?: Maybe<UpdateNoteMutationResponse>;
 };
 
 
@@ -97,9 +99,17 @@ export type NoteData = {
   updated_at: Scalars['String']['output'];
 };
 
+export type NoteDataListType = {
+  __typename?: 'NoteDataListType';
+  currentPage: Scalars['Int']['output'];
+  notes: Array<Maybe<NoteData>>;
+  totalCount: Scalars['Int']['output'];
+  totalPages: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  bffServerInformation?: Maybe<BffServerInformation>;
+  getBffServerInformation?: Maybe<BffServerInformation>;
   getNote: GetNoteQueryResponse;
   getNoteList: GetNoteListQueryResponse;
 };
@@ -119,15 +129,16 @@ export enum SelectableNoteType {
 }
 
 export type UpdateNoteMutationInput = {
-  message: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-  type: SelectableNoteType;
+  message?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<SelectableNoteType>;
 };
 
 export type UpdateNoteMutationResponse = {
   __typename?: 'UpdateNoteMutationResponse';
+  code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
-  note: NoteData;
+  note?: Maybe<NoteData>;
 };
 
 
@@ -212,6 +223,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   NoteData: ResolverTypeWrapper<NoteData>;
+  NoteDataListType: ResolverTypeWrapper<NoteDataListType>;
   Query: ResolverTypeWrapper<{}>;
   SelectableNoteType: SelectableNoteType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -232,6 +244,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']['output'];
   Mutation: {};
   NoteData: NoteData;
+  NoteDataListType: NoteDataListType;
   Query: {};
   String: Scalars['String']['output'];
   UpdateNoteMutationInput: UpdateNoteMutationInput;
@@ -247,35 +260,37 @@ export type BffServerInformationResolvers<ContextType = any, ParentType extends 
 };
 
 export type CreateNoteMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateNoteMutationResponse'] = ResolversParentTypes['CreateNoteMutationResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  note?: Resolver<ResolversTypes['NoteData'], ParentType, ContextType>;
+  note?: Resolver<Maybe<ResolversTypes['NoteData']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type DeleteNoteMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteNoteMutationResponse'] = ResolversParentTypes['DeleteNoteMutationResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  note?: Resolver<ResolversTypes['NoteData'], ParentType, ContextType>;
+  note?: Resolver<Maybe<ResolversTypes['NoteData']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GetNoteListQueryResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GetNoteListQueryResponse'] = ResolversParentTypes['GetNoteListQueryResponse']> = {
-  currentPage?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  notes?: Resolver<Array<Maybe<ResolversTypes['NoteData']>>, ParentType, ContextType>;
-  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  totalPages?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  list?: Resolver<Maybe<ResolversTypes['NoteDataListType']>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GetNoteQueryResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['GetNoteQueryResponse'] = ResolversParentTypes['GetNoteQueryResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  note?: Resolver<ResolversTypes['NoteData'], ParentType, ContextType>;
+  note?: Resolver<Maybe<ResolversTypes['NoteData']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createNote?: Resolver<ResolversTypes['CreateNoteMutationResponse'], ParentType, ContextType, RequireFields<MutationCreateNoteArgs, 'input'>>;
-  deleteNote?: Resolver<ResolversTypes['DeleteNoteMutationResponse'], ParentType, ContextType, RequireFields<MutationDeleteNoteArgs, 'id'>>;
-  updateNote?: Resolver<ResolversTypes['UpdateNoteMutationResponse'], ParentType, ContextType, RequireFields<MutationUpdateNoteArgs, 'id' | 'input'>>;
+  createNote?: Resolver<Maybe<ResolversTypes['CreateNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateNoteArgs, 'input'>>;
+  deleteNote?: Resolver<Maybe<ResolversTypes['DeleteNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteNoteArgs, 'id'>>;
+  updateNote?: Resolver<Maybe<ResolversTypes['UpdateNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateNoteArgs, 'id' | 'input'>>;
 };
 
 export type NoteDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['NoteData'] = ResolversParentTypes['NoteData']> = {
@@ -288,15 +303,24 @@ export type NoteDataResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type NoteDataListTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['NoteDataListType'] = ResolversParentTypes['NoteDataListType']> = {
+  currentPage?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  notes?: Resolver<Array<Maybe<ResolversTypes['NoteData']>>, ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalPages?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  bffServerInformation?: Resolver<Maybe<ResolversTypes['BffServerInformation']>, ParentType, ContextType>;
+  getBffServerInformation?: Resolver<Maybe<ResolversTypes['BffServerInformation']>, ParentType, ContextType>;
   getNote?: Resolver<ResolversTypes['GetNoteQueryResponse'], ParentType, ContextType, RequireFields<QueryGetNoteArgs, 'id'>>;
   getNoteList?: Resolver<ResolversTypes['GetNoteListQueryResponse'], ParentType, ContextType, Partial<QueryGetNoteListArgs>>;
 };
 
 export type UpdateNoteMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateNoteMutationResponse'] = ResolversParentTypes['UpdateNoteMutationResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  note?: Resolver<ResolversTypes['NoteData'], ParentType, ContextType>;
+  note?: Resolver<Maybe<ResolversTypes['NoteData']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -308,6 +332,7 @@ export type Resolvers<ContextType = any> = {
   GetNoteQueryResponse?: GetNoteQueryResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   NoteData?: NoteDataResolvers<ContextType>;
+  NoteDataListType?: NoteDataListTypeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   UpdateNoteMutationResponse?: UpdateNoteMutationResponseResolvers<ContextType>;
 };

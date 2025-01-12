@@ -3,7 +3,7 @@ import { BffServerInformation } from "../../generated/graphql";
 
 export const resolvers = {
   Query: {
-    bffServerInformation: async (): Promise<BffServerInformation> => {
+    getBffServerInformation: async (): Promise<BffServerInformation> => {
       return BFF_SERVER_CONFIGS.info;
     },
   },

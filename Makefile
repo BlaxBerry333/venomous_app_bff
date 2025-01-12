@@ -1,6 +1,6 @@
 DOCKER_COMPOSE_FILE_PATH_DEV = docker-compose.dev.yml
 PROJECT_NAME = venomous_apps_bff
-IMAGE_NAME_SUFFIX_BFF_SERVER = server
+IMAGE_NAME_SUFFIX_BFF_REDIS = server_redis
 
 .PHONY: setup build start-all stop-all clean-all entry restart
 
@@ -26,7 +26,8 @@ start-all:
 	@docker compose \
 		-f ${DOCKER_COMPOSE_FILE_PATH_DEV} \
 		-p ${PROJECT_NAME} \
-		start \
+		start 
+	@npm run start:dev
 
 
 # stop all containers
@@ -44,7 +45,7 @@ clean-all:
 		-p ${PROJECT_NAME} \
 		down -v
 	@for service in \
-		${IMAGE_NAME_SUFFIX_BFF_SERVER}; do \
+		${IMAGE_NAME_SUFFIX_BFF_SERVER_REDIS}; do \
 		if docker images -q ${PROJECT_NAME}_$$service; then \
 			docker rmi ${PROJECT_NAME}_$$service; \
 		fi \

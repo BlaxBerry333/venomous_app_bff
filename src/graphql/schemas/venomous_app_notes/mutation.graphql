@@ -1,7 +1,7 @@
 #import "./types.graphql"
 
 type Mutation {
-  createNote(input: CreateNoteMutationInput!): CreateNoteMutationResponse!
-  updateNote(id: String!, input: UpdateNoteMutationInput!): UpdateNoteMutationResponse!
-  deleteNote(id: String!): DeleteNoteMutationResponse!
+  createNote(input: CreateNoteMutationInput!): CreateNoteMutationResponse
+  updateNote(id: String!, input: UpdateNoteMutationInput!): UpdateNoteMutationResponse
+  deleteNote(id: String!): DeleteNoteMutationResponse
 }

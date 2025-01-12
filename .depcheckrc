@@ -4,6 +4,9 @@
     "dotenv",
     "@graphql-codegen/typescript",
     "@graphql-codegen/typescript-document-nodes",
-    "@graphql-codegen/typescript-resolvers"
+    "@graphql-codegen/typescript-resolvers",
+    "venomous_app_protobuf",
+    "@types/google-protobuf",
+    "google-protobuf"
   ]
 }

@@ -19,5 +19,7 @@ export const BFF_SERVER_CONFIGS = {
     bffServer: process.env.DOMAIN_BFF,
     adminServer: process.env.DOMAIN_ADMIN_SERVER,
     adminClient: process.env.DOMAIN_ADMIN_CLIENT,
+    venomousAppNoteApi: process.env.DOMAIN_VENOMOUS_APP_NOTE_API,
+    venomousAppNoteChatApi: process.env.DOMAIN_VENOMOUS_APP_CHAT_API,
   },
 } as const;
