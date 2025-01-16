@@ -29,17 +29,19 @@ input GetNoteListQueryInput {
 }
 
 type GetNoteListQueryResponse {
-  list: NoteDataListType
-  message: String!
   code: Int!
+  data: NoteDataListType
+  message: String!
+  error: String
 }
 
 # ----------------------------------------------------------------------------------------------------
 
 type GetNoteQueryResponse {
-  note: NoteData
-  message: String!
   code: Int!
+  data: NoteData
+  message: String!
+  error: String
 }
 
 # ----------------------------------------------------------------------------------------------------
@@ -51,9 +53,10 @@ input CreateNoteMutationInput {
 }
 
 type CreateNoteMutationResponse {
-  note: NoteData
-  message: String!
   code: Int!
+  data: NoteData
+  message: String!
+  error: String
 }
 
 # ----------------------------------------------------------------------------------------------------
@@ -65,15 +68,17 @@ input UpdateNoteMutationInput {
 }
 
 type UpdateNoteMutationResponse {
-  note: NoteData
-  message: String!
   code: Int!
+  data: NoteData
+  message: String!
+  error: String
 }
 
 # ----------------------------------------------------------------------------------------------------
 
 type DeleteNoteMutationResponse {
-  note: NoteData
-  message: String!
   code: Int!
+  data: NoteData
+  message: String!
+  error: String
 }

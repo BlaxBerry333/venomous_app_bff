@@ -3,6 +3,7 @@ import express from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 
 import { BFF_SERVER_CONFIGS } from "./configs";
+import { connectRedis } from "./database/redis";
 import { default as apolloServer } from "./graphql";
 import { default as router } from "./restapi/routers";
 import { printServerStartMessage } from "./utils/helpers/handle-log";
@@ -16,6 +17,10 @@ import {
 const app = express();
 
 async function main() {
+  // Connection Redis
+  // ----------------------------------------------------------------------------------------------------
+  await connectRedis();
+
   // Middlewares
   // ----------------------------------------------------------------------------------------------------
   app.use(corsMiddleware);

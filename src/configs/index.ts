@@ -15,6 +15,11 @@ export const BFF_SERVER_CONFIGS = {
     whiteList: [process.env.DOMAIN_ADMIN_SERVER, process.env.DOMAIN_ADMIN_CLIENT],
   },
 
+  db: {
+    redisHost: process.env.BFF_SERVER_REDIS_HOST || "127.0.0.1",
+    redisPort: Number(process.env.BFF_SERVER_REDIS_PORT) || 6379,
+  },
+
   domain: {
     bffServer: process.env.DOMAIN_BFF,
     adminServer: process.env.DOMAIN_ADMIN_SERVER,

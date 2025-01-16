@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { venomousAppNoteApis } from "../../../restapi/resolvers/venomous_app_notes";
+import { venomousAppNoteApis } from "../../../restapi/cached-apis/venomous_app_notes";
 import {
   CreateNoteMutationResponse,
   DeleteNoteMutationResponse,
@@ -21,15 +21,19 @@ export const resolvers = {
       args: QueryGetNoteListArgs,
     ): Promise<GetNoteListQueryResponse> => {
       try {
-        const { data: responseData } = await venomousAppNoteApis.getNoteList(
-          args.input,
-        );
-        return responseData.data;
+        const { data, error, code } = await venomousAppNoteApis.getNoteList(args.input);
+        return {
+          code,
+          data,
+          message: "",
+          error: error || null,
+        };
       } catch (error) {
         return {
-          list: null,
-          message: (error as AxiosError).message,
           code: 500,
+          data: null,
+          message: (error as AxiosError).message,
+          error: (error as AxiosError).message,
         };
       }
     },
@@ -39,13 +43,19 @@ export const resolvers = {
       args: QueryGetNoteArgs,
     ): Promise<GetNoteQueryResponse> => {
       try {
-        const { data: responseData } = await venomousAppNoteApis.getNote(args.id);
-        return responseData.data;
+        const { data, error, code } = await venomousAppNoteApis.getNote(args.id);
+        return {
+          code,
+          data: data.note,
+          message: data.message,
+          error,
+        };
       } catch (error) {
         return {
-          note: null,
-          message: (error as AxiosError).message,
           code: 500,
+          data: null,
+          message: (error as AxiosError).message,
+          error: (error as AxiosError).message,
         };
       }
     },
@@ -57,17 +67,23 @@ export const resolvers = {
       args: MutationCreateNoteArgs,
     ): Promise<CreateNoteMutationResponse> => {
       try {
-        const { data: responseData } = await venomousAppNoteApis.createNote(args.input);
-        if (responseData.error) {
-          throw new Error(`${responseData.code}-${responseData.error}`);
+        const { data, error, code } = await venomousAppNoteApis.createNote(args.input);
+        if (error) {
+          throw new Error(`${code}-${error}`);
         }
-        return responseData.data;
+        return {
+          code,
+          data: data.note,
+          message: data.message,
+          error,
+        };
       } catch (error) {
         const [code, message] = (error as AxiosError).message?.split("-") || [];
         return {
-          note: null,
-          message,
           code: Number(code) || 500,
+          data: null,
+          message: message || (error as AxiosError).message,
+          error: (error as AxiosError).message,
         };
       }
     },
@@ -77,16 +93,22 @@ export const resolvers = {
       args: MutationUpdateNoteArgs,
     ): Promise<UpdateNoteMutationResponse> => {
       try {
-        const { data: responseData } = await venomousAppNoteApis.updateNote(
+        const { data, error, code } = await venomousAppNoteApis.updateNote(
           args.id,
           args.input,
         );
-        return responseData.data;
+        return {
+          code,
+          data: data.note,
+          message: data.message,
+          error,
+        };
       } catch (error) {
         return {
-          note: null,
-          message: (error as AxiosError).message,
           code: 500,
+          data: null,
+          message: (error as AxiosError).message,
+          error: (error as AxiosError).message,
         };
       }
     },
@@ -96,13 +118,19 @@ export const resolvers = {
       args: MutationDeleteNoteArgs,
     ): Promise<DeleteNoteMutationResponse> => {
       try {
-        const { data: responseData } = await venomousAppNoteApis.deleteNote(args.id);
-        return responseData.data;
+        const { data, error, code } = await venomousAppNoteApis.deleteNote(args.id);
+        return {
+          code,
+          data: data.note,
+          message: data.message,
+          error,
+        };
       } catch (error) {
         return {
-          note: null,
-          message: (error as AxiosError).message,
           code: 500,
+          data: null,
+          message: (error as AxiosError).message,
+          error: (error as AxiosError).message,
         };
       }
     },

@@ -1,18 +1,20 @@
 # Venomous Apps' BFF
 
-|     App Name     |                                                                                                                | Topic |  Port  |
-| :--------------: | -------------------------------------------------------------------------------------------------------------- | :---: | :----: |
-|    BFF Server    | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4)](https://skillicons.dev) |  BFF  | `9000` |
-| BFF Server Redis | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4)](https://skillicons.dev)                  | Redis | `9100` |
+|      App Name       |                                                                                                                | Topic |  Port  |
+| :-----------------: | -------------------------------------------------------------------------------------------------------------- | :---: | :----: |
+|     BFF Server      | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4)](https://skillicons.dev) |  BFF  | `9000` |
+| BFF Server Redis DB | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4&theme=light)](https://skillicons.dev)      |  DB   | `9100` |
 
 ## 📚 Tech Stacks
 
 - [node.js]() v22.0.0
 - [express.js]() v4
 - [rollup]() v4
+- [axios]() v1
 - [graphql]() v16
 - [@apollo/server]() v4
 - [@graphql-tools]() v8
+- [redis]() v4
 - [protobuf](https://github.com/BlaxBerry333/venomous_app_protobuf)
 - ...
 
@@ -80,6 +82,9 @@ venomous_app_bff/
 ├── src/
 │    ├── configs/
 │    │
+│    ├── database/
+│    │    └── redis.ts
+│    │
 │    ├── graphql/                           # graphql apis
 │    │    ├── generated/
 │    │    │    └── graphql.ts
@@ -88,6 +93,7 @@ venomous_app_bff/
 │    │    └── resolvers/
 │    │
 │    ├── restapi/                           # restful apis
+│    │    ├── cached-apis/
 │    │    ├── resolvers/
 │    │    └── routers/
 │    │

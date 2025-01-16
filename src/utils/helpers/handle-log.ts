@@ -1,5 +1,15 @@
 import { BFF_SERVER_CONFIGS } from "../../configs";
 
+export function printSuccessMessage(message: string): void {
+  // eslint-disable-next-line no-console
+  console.log(`✨${message}`);
+}
+
+export function printErrorMessage(message: string): void {
+  // eslint-disable-next-line no-console
+  console.error(`❌${message}`);
+}
+
 /**
  * 打印函数的处理时间
  */
@@ -22,10 +32,9 @@ export async function printProcessTime(params: {
     const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(0);
 
     if (!hiddenSuccessMessage) {
-      // eslint-disable-next-line no-console
-      console.log(`✨[${processName}] succeeded in ${durationMs}ms`);
-      // eslint-disable-next-line no-console
-      if (successMessage) console.log(`✨${successMessage}`);
+      printSuccessMessage(
+        successMessage || `[${processName}] succeeded in ${durationMs}ms`,
+      );
     }
 
     return parseFloat(durationMs);
@@ -33,8 +42,7 @@ export async function printProcessTime(params: {
     const [seconds, nanoseconds] = process.hrtime(start);
     const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(0);
 
-    // eslint-disable-next-line no-console
-    console.error(`❌[${processName}] failed after ${durationMs}ms.`);
+    printErrorMessage(errorMessage || `[${processName}] failed after ${durationMs}ms.`);
     throw new Error(errorMessage || (error as Error).message);
   }
 }
