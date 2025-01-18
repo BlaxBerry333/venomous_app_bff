@@ -1,9 +1,9 @@
 # Venomous Apps' BFF
 
-|      App Name       |                                                                                                                | Topic |  Port  |
-| :-----------------: | -------------------------------------------------------------------------------------------------------------- | :---: | :----: |
-|     BFF Server      | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4)](https://skillicons.dev) |  BFF  | `9000` |
-| BFF Server Redis DB | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4&theme=light)](https://skillicons.dev)      |  DB   | `9100` |
+|      App Name       |                                                                                                                            | Topic |  Port  |
+| :-----------------: | -------------------------------------------------------------------------------------------------------------------------- | :---: | :----: |
+|     BFF Server      | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4&theme=light)](https://skillicons.dev) |  BFF  | `9000` |
+| BFF Server Redis DB | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4&theme=light)](https://skillicons.dev)                  |  DB   | `9100` |
 
 ## 📚 Tech Stacks
 

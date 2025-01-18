@@ -1,6 +1,11 @@
 import axios from "axios";
 import { BFF_SERVER_CONFIGS } from "../../configs";
-import { deleteRedisKey, getRedisKey, setRedisKey } from "../../database/redis";
+import {
+  deleteRedisKey,
+  getRedisKey,
+  getRedisKeysByPattern,
+  setRedisKey,
+} from "../../database/redis";
 
 const _apiInstance = axios.create({
   baseURL: BFF_SERVER_CONFIGS.domain.venomousAppNoteApi,
@@ -15,13 +20,23 @@ type CommonResponse<T = any> = {
 };
 
 export const venomousAppNoteApis = {
-  getNoteList: async (params: unknown) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getNoteList: async (params: any) => {
     const { data: responseData } = await _apiInstance.get<CommonResponse>(
       "/api/note/list",
       { params: params },
     );
 
-    const REDIS_KEY: string = `note-list`;
+    const orderField = params?.sort ?? "created_at";
+    const sortOption = params?.order_by === "asc" ? 1 : -1;
+    const typeField = params?.type || "ALL";
+    const page = params?.page || 1;
+    const count = params?.count || 10;
+
+    // ------------------------------------------------------------------------------------------
+
+    const REDIS_KEY: string = `note-list:${orderField}:${sortOption}:${typeField}:${page}:${count}`;
+
     const redisCachedData = await getRedisKey<CommonResponse>(REDIS_KEY);
     if (redisCachedData) {
       return redisCachedData;
@@ -52,8 +67,10 @@ export const venomousAppNoteApis = {
       data,
     );
 
-    const REDIS_KEY: string = `note-list`;
-    await deleteRedisKey(REDIS_KEY);
+    const REDIS_KEYS: string[] = await getRedisKeysByPattern("note-list:*");
+    if (REDIS_KEYS.length > 0) {
+      await deleteRedisKey(REDIS_KEYS);
+    }
 
     return responseData;
   },
@@ -64,24 +81,27 @@ export const venomousAppNoteApis = {
       data,
     );
 
-    const REDIS_KEY_1: string = `note-list`;
-    const REDIS_KEY_2: string = `note-${id}`;
-
-    await deleteRedisKey(REDIS_KEY_1);
-    await deleteRedisKey(REDIS_KEY_2);
+    const REDIS_KEYS: string[] = await getRedisKeysByPattern("note-list:*");
+    if (REDIS_KEYS.length > 0) {
+      await deleteRedisKey(REDIS_KEYS);
+    }
+    const REDIS_KEY: string = `note-${id}`;
+    await deleteRedisKey(REDIS_KEY);
 
     return responseData;
   },
+
   deleteNote: async (id: string) => {
     const { data: responseData } = await _apiInstance.delete<CommonResponse>(
       `/api/note/${id}`,
     );
 
-    const REDIS_KEY_1: string = `note-list`;
-    const REDIS_KEY_2: string = `note-${id}`;
-
-    await deleteRedisKey(REDIS_KEY_1);
-    await deleteRedisKey(REDIS_KEY_2);
+    const REDIS_KEYS: string[] = await getRedisKeysByPattern("note-list:*");
+    if (REDIS_KEYS.length > 0) {
+      await deleteRedisKey(REDIS_KEYS);
+    }
+    const REDIS_KEY: string = `note-${id}`;
+    await deleteRedisKey(REDIS_KEY);
 
     return responseData;
   },
