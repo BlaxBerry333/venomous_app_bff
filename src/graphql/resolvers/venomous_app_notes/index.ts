@@ -1,11 +1,17 @@
 import { AxiosError } from "axios";
 
-import { venomousAppNoteApis } from "../../../restapi/cached-apis/venomous_app_notes";
 import {
+  cachedVenomousAppNoteApis,
+  CommonResponse,
+  getErrorResponse,
+} from "../../../restapi/cached-apis/venomous_app_notes";
+import {
+  AccountLoginMutationResponse,
   CreateNoteMutationResponse,
   DeleteNoteMutationResponse,
   GetNoteListQueryResponse,
   GetNoteQueryResponse,
+  MutationAccountLoginArgs,
   MutationCreateNoteArgs,
   MutationDeleteNoteArgs,
   MutationUpdateNoteArgs,
@@ -21,7 +27,11 @@ export const resolvers = {
       args: QueryGetNoteListArgs,
     ): Promise<GetNoteListQueryResponse> => {
       try {
-        const { data, error, code } = await venomousAppNoteApis.getNoteList(args.input);
+        const { data, error, code } = await cachedVenomousAppNoteApis.getNoteList({
+          ...args,
+          query: args.input,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
         return {
           code,
           data,
@@ -29,11 +39,14 @@ export const resolvers = {
           error: error || null,
         };
       } catch (error) {
+        const { data, code, message } = getErrorResponse(
+          error as AxiosError<CommonResponse>,
+        );
         return {
-          code: 500,
-          data: null,
-          message: (error as AxiosError).message,
-          error: (error as AxiosError).message,
+          code,
+          data,
+          message,
+          error: message,
         };
       }
     },
@@ -43,7 +56,13 @@ export const resolvers = {
       args: QueryGetNoteArgs,
     ): Promise<GetNoteQueryResponse> => {
       try {
-        const { data, error, code } = await venomousAppNoteApis.getNote(args.id);
+        const { data, error, code } = await cachedVenomousAppNoteApis.getNote({
+          ...args,
+          params: {
+            id: args.id,
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
         return {
           code,
           data: data.note,
@@ -51,11 +70,14 @@ export const resolvers = {
           error,
         };
       } catch (error) {
+        const { data, code, message } = getErrorResponse(
+          error as AxiosError<CommonResponse>,
+        );
         return {
-          code: 500,
-          data: null,
-          message: (error as AxiosError).message,
-          error: (error as AxiosError).message,
+          code,
+          data,
+          message,
+          error: message,
         };
       }
     },
@@ -67,7 +89,11 @@ export const resolvers = {
       args: MutationCreateNoteArgs,
     ): Promise<CreateNoteMutationResponse> => {
       try {
-        const { data, error, code } = await venomousAppNoteApis.createNote(args.input);
+        const { data, error, code } = await cachedVenomousAppNoteApis.createNote({
+          ...args,
+          body: args.input,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
         if (error) {
           throw new Error(`${code}-${error}`);
         }
@@ -78,12 +104,13 @@ export const resolvers = {
           error,
         };
       } catch (error) {
-        const [code, message] = (error as AxiosError).message?.split("-") || [];
+        const errorResponse = getErrorResponse(error as AxiosError<CommonResponse>);
+        const [code, message] = errorResponse.message?.split("-") || [];
         return {
           code: Number(code) || 500,
-          data: null,
-          message: message || (error as AxiosError).message,
-          error: (error as AxiosError).message,
+          data: errorResponse.data,
+          message,
+          error: message,
         };
       }
     },
@@ -93,10 +120,14 @@ export const resolvers = {
       args: MutationUpdateNoteArgs,
     ): Promise<UpdateNoteMutationResponse> => {
       try {
-        const { data, error, code } = await venomousAppNoteApis.updateNote(
-          args.id,
-          args.input,
-        );
+        const { data, error, code } = await cachedVenomousAppNoteApis.updateNote({
+          ...args,
+          prams: {
+            id: args.id,
+          },
+          body: args.input,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
         return {
           code,
           data: data.note,
@@ -104,11 +135,14 @@ export const resolvers = {
           error,
         };
       } catch (error) {
+        const { data, code, message } = getErrorResponse(
+          error as AxiosError<CommonResponse>,
+        );
         return {
-          code: 500,
-          data: null,
-          message: (error as AxiosError).message,
-          error: (error as AxiosError).message,
+          code,
+          data,
+          message,
+          error: message,
         };
       }
     },
@@ -118,7 +152,13 @@ export const resolvers = {
       args: MutationDeleteNoteArgs,
     ): Promise<DeleteNoteMutationResponse> => {
       try {
-        const { data, error, code } = await venomousAppNoteApis.deleteNote(args.id);
+        const { data, error, code } = await cachedVenomousAppNoteApis.deleteNote({
+          ...args,
+          params: {
+            id: args.id,
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
         return {
           code,
           data: data.note,
@@ -126,11 +166,40 @@ export const resolvers = {
           error,
         };
       } catch (error) {
+        const { data, code, message } = getErrorResponse(
+          error as AxiosError<CommonResponse>,
+        );
         return {
-          code: 500,
-          data: null,
-          message: (error as AxiosError).message,
-          error: (error as AxiosError).message,
+          code,
+          data,
+          message,
+          error: message,
+        };
+      }
+    },
+
+    accountLogin: async (
+      _: unknown,
+      args: MutationAccountLoginArgs,
+    ): Promise<AccountLoginMutationResponse> => {
+      try {
+        const { data, error, code } = await cachedVenomousAppNoteApis.accountLogin({
+          ...args,
+          body: args.input,
+        });
+        return {
+          code,
+          token: data.token,
+          message: data.message,
+          error,
+        };
+      } catch (error) {
+        const { code, message } = getErrorResponse(error as AxiosError<CommonResponse>);
+        return {
+          code,
+          token: null,
+          message,
+          error: message,
         };
       }
     },

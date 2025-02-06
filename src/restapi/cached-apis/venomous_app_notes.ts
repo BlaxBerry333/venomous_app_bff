@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import type { Request } from "express";
+
 import { BFF_SERVER_CONFIGS } from "../../configs";
 import {
   deleteRedisKey,
@@ -13,18 +15,29 @@ const _apiInstance = axios.create({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CommonResponse<T = any> = {
+export type CommonResponse<T = any> = {
   code: number;
   data: T & { message?: string };
   error: string;
 };
 
-export const venomousAppNoteApis = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getNoteList: async (params: any) => {
+export function getErrorResponse(error: AxiosError<CommonResponse>) {
+  const errorResponse = error.response?.data;
+  const code = errorResponse?.code || 500;
+  const message = errorResponse?.error || error.message;
+  return {
+    code,
+    data: null,
+    message,
+  };
+}
+
+export const cachedVenomousAppNoteApis = {
+  getNoteList: async (req: Request) => {
+    const params = req.query;
     const { data: responseData } = await _apiInstance.get<CommonResponse>(
       "/api/note/list",
-      { params: params },
+      { params, headers: { Authorization: req.headers.authorization } },
     );
 
     const orderField = params?.sort ?? "created_at";
@@ -46,9 +59,11 @@ export const venomousAppNoteApis = {
     return responseData;
   },
 
-  getNote: async (id: string) => {
+  getNote: async (req: Request) => {
+    const id = req.params.id;
     const { data: responseData } = await _apiInstance.get<CommonResponse>(
       `/api/note/${id}`,
+      { headers: { Authorization: req.headers.authorization } },
     );
 
     const REDIS_KEY: string = `note-${id}`;
@@ -61,10 +76,12 @@ export const venomousAppNoteApis = {
     return responseData;
   },
 
-  createNote: async (data: unknown) => {
+  createNote: async (req: Request) => {
+    const data = req.body;
     const { data: responseData } = await _apiInstance.post<CommonResponse>(
       "/api/note/create",
       data,
+      { headers: { Authorization: req.headers.authorization } },
     );
 
     const REDIS_KEYS: string[] = await getRedisKeysByPattern("note-list:*");
@@ -75,10 +92,13 @@ export const venomousAppNoteApis = {
     return responseData;
   },
 
-  updateNote: async (id: string, data: unknown) => {
+  updateNote: async (req: Request) => {
+    const id = req.params.id;
+    const data = req.body;
     const { data: responseData } = await _apiInstance.put<CommonResponse>(
       `/api/note/${id}`,
       data,
+      { headers: { Authorization: req.headers.authorization } },
     );
 
     const REDIS_KEYS: string[] = await getRedisKeysByPattern("note-list:*");
@@ -91,7 +111,8 @@ export const venomousAppNoteApis = {
     return responseData;
   },
 
-  deleteNote: async (id: string) => {
+  deleteNote: async (req: Request) => {
+    const id = req.params.id;
     const { data: responseData } = await _apiInstance.delete<CommonResponse>(
       `/api/note/${id}`,
     );
@@ -103,6 +124,14 @@ export const venomousAppNoteApis = {
     const REDIS_KEY: string = `note-${id}`;
     await deleteRedisKey(REDIS_KEY);
 
+    return responseData;
+  },
+
+  accountLogin: async (data: unknown) => {
+    const { data: responseData } = await _apiInstance.post<CommonResponse>(
+      "/api/account/login",
+      data,
+    );
     return responseData;
   },
 };

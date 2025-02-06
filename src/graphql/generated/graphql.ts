@@ -16,6 +16,32 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AccountData = {
+  __typename?: 'AccountData';
+  _id: Scalars['String']['output'];
+  avatar?: Maybe<Scalars['String']['output']>;
+  created_at: Scalars['String']['output'];
+  display_name?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  is_active?: Maybe<Scalars['Boolean']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<SelectableAccountRole>;
+  updated_at: Scalars['String']['output'];
+};
+
+export type AccountLoginMutationInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type AccountLoginMutationResponse = {
+  __typename?: 'AccountLoginMutationResponse';
+  code: Scalars['Int']['output'];
+  error?: Maybe<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  token?: Maybe<Scalars['String']['output']>;
+};
+
 export type BffServerInformation = {
   __typename?: 'BffServerInformation';
   author: Scalars['String']['output'];
@@ -72,9 +98,15 @@ export type GetNoteQueryResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  accountLogin?: Maybe<AccountLoginMutationResponse>;
   createNote?: Maybe<CreateNoteMutationResponse>;
   deleteNote?: Maybe<DeleteNoteMutationResponse>;
   updateNote?: Maybe<UpdateNoteMutationResponse>;
+};
+
+
+export type MutationAccountLoginArgs = {
+  input: AccountLoginMutationInput;
 };
 
 
@@ -127,6 +159,11 @@ export type QueryGetNoteArgs = {
 export type QueryGetNoteListArgs = {
   input?: InputMaybe<GetNoteListQueryInput>;
 };
+
+export enum SelectableAccountRole {
+  Admin = 'ADMIN',
+  Normal = 'NORMAL'
+}
 
 export enum SelectableNoteType {
   Raft = 'RAFT'
@@ -217,6 +254,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AccountData: ResolverTypeWrapper<AccountData>;
+  AccountLoginMutationInput: AccountLoginMutationInput;
+  AccountLoginMutationResponse: ResolverTypeWrapper<AccountLoginMutationResponse>;
   BffServerInformation: ResolverTypeWrapper<BffServerInformation>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateNoteMutationInput: CreateNoteMutationInput;
@@ -230,6 +270,7 @@ export type ResolversTypes = {
   NoteData: ResolverTypeWrapper<NoteData>;
   NoteDataListType: ResolverTypeWrapper<NoteDataListType>;
   Query: ResolverTypeWrapper<{}>;
+  SelectableAccountRole: SelectableAccountRole;
   SelectableNoteType: SelectableNoteType;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateNoteMutationInput: UpdateNoteMutationInput;
@@ -238,6 +279,9 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AccountData: AccountData;
+  AccountLoginMutationInput: AccountLoginMutationInput;
+  AccountLoginMutationResponse: AccountLoginMutationResponse;
   BffServerInformation: BffServerInformation;
   Boolean: Scalars['Boolean']['output'];
   CreateNoteMutationInput: CreateNoteMutationInput;
@@ -254,6 +298,27 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   UpdateNoteMutationInput: UpdateNoteMutationInput;
   UpdateNoteMutationResponse: UpdateNoteMutationResponse;
+};
+
+export type AccountDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountData'] = ResolversParentTypes['AccountData']> = {
+  _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  created_at?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  display_name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  is_active?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['SelectableAccountRole']>, ParentType, ContextType>;
+  updated_at?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AccountLoginMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountLoginMutationResponse'] = ResolversParentTypes['AccountLoginMutationResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type BffServerInformationResolvers<ContextType = any, ParentType extends ResolversParentTypes['BffServerInformation'] = ResolversParentTypes['BffServerInformation']> = {
@@ -297,6 +362,7 @@ export type GetNoteQueryResponseResolvers<ContextType = any, ParentType extends 
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  accountLogin?: Resolver<Maybe<ResolversTypes['AccountLoginMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountLoginArgs, 'input'>>;
   createNote?: Resolver<Maybe<ResolversTypes['CreateNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateNoteArgs, 'input'>>;
   deleteNote?: Resolver<Maybe<ResolversTypes['DeleteNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteNoteArgs, 'id'>>;
   updateNote?: Resolver<Maybe<ResolversTypes['UpdateNoteMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateNoteArgs, 'id' | 'input'>>;
@@ -335,6 +401,8 @@ export type UpdateNoteMutationResponseResolvers<ContextType = any, ParentType ex
 };
 
 export type Resolvers<ContextType = any> = {
+  AccountData?: AccountDataResolvers<ContextType>;
+  AccountLoginMutationResponse?: AccountLoginMutationResponseResolvers<ContextType>;
   BffServerInformation?: BffServerInformationResolvers<ContextType>;
   CreateNoteMutationResponse?: CreateNoteMutationResponseResolvers<ContextType>;
   DeleteNoteMutationResponse?: DeleteNoteMutationResponseResolvers<ContextType>;

@@ -82,3 +82,36 @@ type DeleteNoteMutationResponse {
   message: String!
   error: String
 }
+
+# ----------------------------------------------------------------------------------------------------
+
+enum SelectableAccountRole {
+  ADMIN
+  NORMAL
+}
+
+type AccountData {
+  _id: String!
+  display_name: String
+  email: String!
+  password: String
+  avatar: String
+  created_at: String!
+  updated_at: String!
+  role: SelectableAccountRole
+  is_active: Boolean
+}
+
+input AccountLoginMutationInput {
+  email: String!
+  password: String!
+}
+
+type AccountLoginMutationResponse {
+  code: Int!
+  token: String
+  message: String!
+  error: String
+}
+
+# ----------------------------------------------------------------------------------------------------

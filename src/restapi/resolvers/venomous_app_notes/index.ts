@@ -1,7 +1,11 @@
 import { AxiosError } from "axios";
 import type { Handler } from "express";
 
-import { venomousAppNoteApis } from "../../cached-apis/venomous_app_notes";
+import {
+  cachedVenomousAppNoteApis,
+  CommonResponse,
+  getErrorResponse,
+} from "../../cached-apis/venomous_app_notes";
 
 /**
  * - GET /notes/api/note/list
@@ -14,8 +18,7 @@ import { venomousAppNoteApis } from "../../cached-apis/venomous_app_notes";
  */
 export const getNoteListHandler: Handler = async (req, res) => {
   try {
-    const { data, error, code } = await venomousAppNoteApis.getNoteList(req.query);
-
+    const { data, error, code } = await cachedVenomousAppNoteApis.getNoteList(req);
     res.status(code).send({
       code,
       data: data,
@@ -23,11 +26,14 @@ export const getNoteListHandler: Handler = async (req, res) => {
       error,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      data: null,
-      message: (error as AxiosError).message,
-      error: (error as AxiosError).message,
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
     });
   }
 };
@@ -37,7 +43,7 @@ export const getNoteListHandler: Handler = async (req, res) => {
  */
 export const getNoteHandler: Handler = async (req, res) => {
   try {
-    const { data, error, code } = await venomousAppNoteApis.getNote(req.params.id);
+    const { data, error, code } = await cachedVenomousAppNoteApis.getNote(req);
     res.status(code).send({
       code,
       data: data.note,
@@ -45,11 +51,14 @@ export const getNoteHandler: Handler = async (req, res) => {
       error,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      data: null,
-      message: (error as AxiosError).message,
-      error: (error as AxiosError).message,
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
     });
   }
 };
@@ -59,7 +68,7 @@ export const getNoteHandler: Handler = async (req, res) => {
  */
 export const createNoteHandler: Handler = async (req, res) => {
   try {
-    const { data, error, code } = await venomousAppNoteApis.createNote(req.body);
+    const { data, error, code } = await cachedVenomousAppNoteApis.createNote(req);
     res.status(code).send({
       code,
       data: data.note,
@@ -67,11 +76,14 @@ export const createNoteHandler: Handler = async (req, res) => {
       error,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      data: null,
-      message: (error as AxiosError).message,
-      error: (error as AxiosError).message,
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
     });
   }
 };
@@ -81,10 +93,7 @@ export const createNoteHandler: Handler = async (req, res) => {
  */
 export const updateNoteHandler: Handler = async (req, res) => {
   try {
-    const { data, error, code } = await venomousAppNoteApis.updateNote(
-      req.params.id,
-      req.body,
-    );
+    const { data, error, code } = await cachedVenomousAppNoteApis.updateNote(req);
     res.status(code).send({
       code,
       data: data.note,
@@ -92,11 +101,14 @@ export const updateNoteHandler: Handler = async (req, res) => {
       error,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      data: null,
-      message: (error as AxiosError).message,
-      error: (error as AxiosError).message,
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
     });
   }
 };
@@ -106,7 +118,7 @@ export const updateNoteHandler: Handler = async (req, res) => {
  */
 export const deleteNoteHandler: Handler = async (req, res) => {
   try {
-    const { data, error, code } = await venomousAppNoteApis.deleteNote(req.params.id);
+    const { data, error, code } = await cachedVenomousAppNoteApis.deleteNote(req);
     res.status(code).send({
       code,
       data: data.note,
@@ -114,11 +126,41 @@ export const deleteNoteHandler: Handler = async (req, res) => {
       error,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      data: null,
-      message: (error as AxiosError).message,
-      error: (error as AxiosError).message,
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
+    });
+  }
+};
+
+/**
+ * - POST /notes/api/account/login
+ */
+export const loginAccountHandler: Handler = async (req, res) => {
+  try {
+    const { data, error, code } = await cachedVenomousAppNoteApis.accountLogin(
+      req.body,
+    );
+    res.status(code).send({
+      code,
+      data: data,
+      message: "",
+      error,
+    });
+  } catch (error) {
+    const { data, code, message } = getErrorResponse(
+      error as AxiosError<CommonResponse>,
+    );
+    res.status(code).send({
+      code,
+      data,
+      message,
+      error: message,
     });
   }
 };

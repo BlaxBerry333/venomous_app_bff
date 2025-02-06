@@ -1,9 +1,9 @@
 # Venomous Apps' BFF
 
-|      App Name       |                                                                                                                            | Topic |  Port  |
-| :-----------------: | -------------------------------------------------------------------------------------------------------------------------- | :---: | :----: |
-|     BFF Server      | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4&theme=light)](https://skillicons.dev) |  BFF  | `9000` |
-| BFF Server Redis DB | [![My Skills](https://skillicons.dev/icons?i=docker,redis&perline=4&theme=light)](https://skillicons.dev)                  |  DB   | `9100` |
+|                     | Main Skills                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |         Topic          |  Port  |
+| :-----------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------: | :----: |
+|     BFF Server      | <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/web-infrastructure--docker.png?raw=true" style="width:48px;" /> <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/web-backend--nodejs.png?raw=true" style="width:48px;" /> <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/web-backend--expressjs.png?raw=true" style="width:48px;" /> <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/web-backend--graphql.png?raw=true" style="width:48px;" /> | REST API + Graphql API | `9000` |
+| BFF Server Redis DB | <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/web-infrastructure--docker.png?raw=true" style="width:48px;" /> <img src="https://github.com/BlaxBerry333/programming-notes/blob/main/docs/public/static/skill-icons/database--redis.png?raw=true" style="width:48px;" />                                                                                                                                                                                                                                                                                                                                     |         Redis          | `9100` |
 
 ## 📚 Tech Stacks
 
@@ -62,16 +62,17 @@
 
 ## 🔗 API
 
-| Method | URL                         | Description                |
-| ------ | --------------------------- | -------------------------- |
-|        | bff server information apis |                            |
-| GET    | `/bff_info`                 | get bff server information |
-|        | venomous_app_notes apis     |                            |
-| GET    | `/notes/api/note/list`      | get all notes              |
-| POST   | `/notes/api/note/create`    | create a note              |
-| POST   | `/notes/api/note/<id>`      | get a specific note        |
-| PUT    | `/notes/api/note/<id>`      | update a specific note     |
-| DELETE | `/notes/api/note/<id>`      | delete a specific note     |
+| Method | URL                         | Description                |                          |
+| ------ | --------------------------- | -------------------------- | ------------------------ |
+|        | bff server information apis |                            |                          |
+| GET    | `/bff_info`                 | get bff server information |                          |
+|        | venomous_app_notes apis     |                            |                          |
+| POST   | `/notes/api/account/login`  | get access token ( login ) |                          |
+| GET    | `/notes/api/note/list`      | get all notes              | access token is required |
+| POST   | `/notes/api/note/create`    | create a note              | access token is required |
+| POST   | `/notes/api/note/<id>`      | get a specific note        | access token is required |
+| PUT    | `/notes/api/note/<id>`      | update a specific note     | access token is required |
+| DELETE | `/notes/api/note/<id>`      | delete a specific note     | access token is required |
 
 ## 📂 Project Structure
 
